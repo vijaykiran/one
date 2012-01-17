@@ -5,7 +5,7 @@
             [one.dispatch :as dispatch]
             [one.sample.view :as view]))
 
-;; TODO: Add marginalia comment to explain what :export is for.
+;; **TODO:** Add marginalia comment to explain what `:export` is for.
 
 (defn- server
   []
@@ -22,10 +22,10 @@
   (repl/connect (str (server) ":9000/repl")))
 
 (defn ^:export start
-  "Start the application by firing a :form event which will cause the
+  "Start the application by firing a `:init` event which will cause the
   form view to be displayed.
 
   This function must be called from the host HTML page to start the
   application."
   []
-  (dispatch/fire :form))
+  (dispatch/fire :init))

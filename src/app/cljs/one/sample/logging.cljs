@@ -2,7 +2,7 @@
 'events' and send all application-specific events to it.
 
 To view log messages in the browser console, add a call
-to (log/console-output) to this namespace or evaluate this from the
+to `(log/console-output)` to this namespace or evaluate this from the
 REPL.
 
 For more information see library.logging."}
@@ -17,11 +17,10 @@ For more information see library.logging."}
                    (fn [t d] (log/info logger (str (pr-str t) " - " (pr-str d)))))
 
 (comment
-
   ;; log to the console
-  (log/console-output)
+  (log/start-display (log/console-output))
   ;; log to to the "fancy" window
-  (log/fancy-output "main")
+  (log/start-display (log/fancy-output "main"))
   ;; change the logging level
   (log/set-level logger :fine)
   )
