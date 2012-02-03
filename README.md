@@ -67,28 +67,39 @@ following commands to install and run One:
 
     git clone https://github.com/brentonashworth/one.git
     cd one
-    script/deps
-    script/run
+    lein bootstrap
+    lein repl
 
-Open your browser and navigate to
-[http://localhost:8080](http://localhost:8080)
+At the REPL prompt which appears, type `(go)`. Your browser will
+launch and navigate to the running application.
 
 Once you have this running, see the [wiki][] and the [website][] for
 more information.
+
+### Getting an exception when you run `lein repl`?
+
+If you get an exception when you run `lein repl`, try 
+[this workaround](https://github.com/brentonashworth/one/wiki/lein-repl-Problem-Workaround).
 
 # Getting Help
 
 The best place to get help is on the
 [Clojure Mailing List](https://groups.google.com/group/clojure). You
-can also log issues in the
-[project issue tracker](https://github.com/brentonashworth/one/issues).
+can also log issues in the [project issue tracker][issues].
+
+# Contributing
+
+ClojureScript One welcomes help from the community in the form of pull
+requests, [bug reports][issues], [wiki][wiki] updates, and hugs. If
+you wish to contribute code, please read [How We Work][how-we-work].
+In particular, note that pull requests should target the
+`pull-requests` branch, not `master`.
 
 # Known Issues
 
-* ClojureScript One does not currently support developing under
-  Windows. The included sample application, however, can be viewed in
-  IE9 and (with some degradation in behavior) in IE8. Versions of
-  Internet Explorer previous to 8 are not supported at this time.
+* ClojureScript One supports developing under Windows if you are using
+  Chrome, Firefox, or IE9. Versions of Internet Explorer previous to 9
+  are not supported at this time.
 * Everything on the
   [project issues list](https://github.com/brentonashworth/one/issues).
 
@@ -127,3 +138,5 @@ Distributed under the Eclipse Public License, the same as Clojure uses. See the 
 [lein]: https://github.com/technomancy/leiningen
 [wiki]: https://github.com/brentonashworth/one/wiki
 [website]: http://clojurescriptone.com
+[how-we-work]: https://github.com/brentonashworth/one/wiki/HowWeWork
+[issues]: https://github.com/brentonashworth/one/issues

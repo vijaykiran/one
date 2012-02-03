@@ -1,4 +1,4 @@
-(ns one.sample.dev-server
+(ns one.dev-server
   "Serve a friendly ClojureScript environment with code reloading and
    the ClojureScript application in both development and advanced
    compiled mode."
@@ -13,15 +13,17 @@
         [cljs.repl.browser :only (repl-env)]
         [one.templates :only (load-html apply-templates render)]
         [one.host-page :only (application-host)]
-        [one.sample.api :only (remote-routes)]
-        [one.sample.config])
+        [one.application])
   (:require [net.cgrand.enlive-html :as html]
             [one.reload :as reload]
             [cljs.repl.multi-browser :as multi-browser])
   (:import java.io.File))
 
 (defn- environment [uri]
-  (if (= uri "/development") :development :production))
+  (case uri
+    "/development" :development
+    "/production" :production
+    "/fresh" :fresh))
 
 (defn- make-host-page [request]
   {:status 200
@@ -29,10 +31,13 @@
    :body (application-host config (environment (:uri request)))})
 
 (defroutes app-routes
-  remote-routes
+  (:api-routes config)
   (GET "/development" request (make-host-page request))
-  (GET "/production" request (make-host-page request) )
-  (GET "/design*" {{file :*} :route-params} (load-html (.substring file 1)))
+  (GET "/production" request (make-host-page request))
+  (GET "/fresh" request (make-host-page request))
+  (GET "/design*" {{file :*} :route-params}
+       (when (.endsWith file ".html")
+         (load-html (.substring file 1))))
   (ANY "*" request (file-response "404.html" {:root "public"})))
 
 (defn- js-encoding [handler]
@@ -46,9 +51,8 @@
 
 (defn- rewrite-design-uris [handler]
   (fn [{:keys [uri] :as request}]
-    (if (or (.startsWith uri "/design/css")
-            (.startsWith uri "/design/javascripts")
-            (.startsWith uri "/design/images"))
+    (if (some true? (map #(.startsWith uri (str "/design/" %))
+                         ["css" "javascripts" "images" "js" "favicon.ico"]))
       (handler (assoc request :uri (.substring uri 7)))
       (handler request))))
 
@@ -96,29 +100,3 @@
   "Start the development server on port 8080."
   []
   (run-jetty (var app) {:join? false :port 8080}))
-
-(defn cljs-repl
-  "Start a ClojureScript REPL which can connect to the development
-  version of the application. The REPL will not work until the
-  development page connects to it, so you will need to either open or
-  refresh the development page after calling this function."
-  []
-  (repl (repl-env)))
-
-(defn cljs-multi-repl
-  []
-  (repl (multi-browser/repl-env)))
-
-(comment
-  ;; One.Sample.the server.
-  (use 'one.sample.dev-server :reload-all)
-  (run-server)
-  ;; Start a REPL.
-  (cljs-repl)
-  ;; Don't forget to open the development page, or refresh it if it's
-  ;; already open, or the REPL won't work
-
-  ;; Start a multi-browser REPL
-  (cljs-multi-repl)
-
-  )

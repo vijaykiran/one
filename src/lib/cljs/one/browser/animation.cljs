@@ -53,7 +53,7 @@
 
   js/Element
   (scroll [this]
-    [(.scrollLeft this) (.scrollTop this)]))
+    [(.-scrollLeft this) (.-scrollTop this)]))
 
 (defprotocol ISize
   (size [this] "Return the size of an element as `[W H]`.")
@@ -96,7 +96,10 @@
 
   js/Element
   (opacity [this]
-    (opacity (style/getOpacity this))))
+    (let [op (style/getComputedStyle this "opacity")]
+      (if (= op "")
+        (opacity (style/getOpacity this))
+        op))))
 
 (extend-type goog.fx.AnimationQueue
   
@@ -707,7 +710,9 @@
 (defn- make-animation
   "Create the animation to run."
   [{:keys [element animation]}]
-  (if element (bind element animation) animation))
+  (cond element (bind element animation)
+        (fn? animation) (animation)
+        :else animation))
 
 (defn- play-animations
   "Called by a function which has been assigned the task of running

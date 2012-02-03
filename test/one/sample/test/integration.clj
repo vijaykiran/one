@@ -2,7 +2,9 @@
   "Tests which cross the client server boundary."
   (:use [clojure.test]
         [one.sample.api :only (*database*)]
-        [one.test :only (cljs-eval cljs-wait-for)]))
+        [one.test :only (cljs-eval cljs-wait-for within-browser-env)]))
+
+(use-fixtures :once within-browser-env)
 
 (deftest test-enter-new-name
   (reset! *database* #{})
@@ -12,9 +14,9 @@
              (fx/enable-button "greet-button")
              (clojure.browser.dom/click-element :greet-button))
   (cljs-wait-for #(= % :greeting) one.sample.model (:state @state))
-  (is (= (cljs-eval one.sample.view (.innerHTML (first (nodes (by-class "name")))))
+  (is (= (cljs-eval one.sample.view (.-innerHTML (first (nodes (by-class "name")))))
          "Ted"))
-  (is (= (cljs-eval one.sample.view (.innerHTML (first (nodes (by-class "again")))))
+  (is (= (cljs-eval one.sample.view (.-innerHTML (first (nodes (by-class "again")))))
          ""))
   (is (= (cljs-eval one.sample.model @state)
          {:state :greeting, :name "Ted", :exists false}))
@@ -28,9 +30,9 @@
              (fx/enable-button "greet-button")
              (clojure.browser.dom/click-element :greet-button))
   (cljs-wait-for #(= % :greeting) one.sample.model (:state @state))
-  (is (= (cljs-eval one.sample.view (.innerHTML (first (nodes (by-class "name")))))
+  (is (= (cljs-eval one.sample.view (.-innerHTML (first (nodes (by-class "name")))))
          "Ted"))
-  (is (= (cljs-eval one.sample.view (.innerHTML (first (nodes (by-class "again")))))
+  (is (= (cljs-eval one.sample.view (.-innerHTML (first (nodes (by-class "again")))))
          "again"))
   (is (= (cljs-eval one.sample.model @state)
          {:state :greeting, :name "Ted", :exists true}))
