@@ -15,8 +15,7 @@
         [one.host-page :only (application-host)]
         [one.application])
   (:require [net.cgrand.enlive-html :as html]
-            [one.reload :as reload]
-            [cljs.repl.multi-browser :as multi-browser])
+            [one.reload :as reload])
   (:import java.io.File))
 
 (defn- environment [uri]
