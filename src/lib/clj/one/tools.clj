@@ -3,9 +3,10 @@
   (:use [cljs.closure :only (build)]
         [one.host-page :only (application-host)]
         [one.config :only (cljs-build-opts production-js)]
-        [cljs.repl :only (repl)]
-        [cljs.repl.browser :only (repl-env)])
-  (:require [clojure.java.io :as io]))
+        [cljs.repl :only (repl)])
+  (:require [clojure.java.io :as io]
+            [cljs.repl.browser :as browser]
+            [cljs.repl.multi-browser :as multi-browser]))
 
 (defn build-project
   "Emit both a JavaScript file containing the compiled ClojureScript
@@ -22,7 +23,13 @@
   development page connects to it, so you will need to either open or
   refresh the development page after calling this function."
   []
-  (repl (repl-env)))
+  (repl (browser/repl-env)))
+
+(defn cljs-multi-repl
+  "Start a ClojureScript REPL which can be connected to multiple
+  browsers at the same time."
+  []
+  (repl (multi-browser/repl-env)))
 
 (defn copy-recursive-into
   "Recursively copy the files in src to dest."

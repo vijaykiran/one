@@ -30,6 +30,11 @@
   []
   (tools/cljs-repl))
 
+(defn cljs-multi-repl
+  "Start a ClojureScript REPL which can connect to multiple browsers."
+  []
+  (tools/cljs-multi-repl))
+
 (println)
 (println "Type (go) to launch the development server and setup a browser-connected REPL.")
 (println "Type (dev-server) to launch only the development server.")
