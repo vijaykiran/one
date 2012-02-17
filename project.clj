@@ -1,14 +1,13 @@
 (defproject one "1.0.0-SNAPSHOT"
-  :description "Getting Started with ClojureScript."
+  :description "S-expense"
   :dependencies [[org.clojure/clojure "1.3.0"]
-                 [ring "1.0.0-RC1"]
-                 [compojure "0.6.4"]
+                 [ring "1.0.2"]
+                 [compojure "1.0.1"]
                  [enlive "1.0.0"]
                  [org.mozilla/rhino "1.7R3"]
                  [com.google.javascript/closure-compiler "r1592"]
                  [org.clojure/google-closure-library "0.0-790"]]
-  :dev-dependencies [[jline "0.9.94"]
-                     [marginalia "0.7.0-SNAPSHOT"]
+  :dev-dependencies [[marginalia "0.7.0-SNAPSHOT"]
                      [lein-marginalia "0.7.0-SNAPSHOT"]]
   :git-dependencies [["https://github.com/clojure/clojurescript.git"
                       "886d8dc81812962d30a741d6d05ce9d90975160f"]
